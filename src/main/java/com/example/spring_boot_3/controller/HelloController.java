@@ -2,6 +2,7 @@ package com.example.spring_boot_3.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -90,6 +91,49 @@ public class HelloController {
     mav.setViewName( "form2" );
     mav.addObject( "msg", res );
     return mav;
+  }
+  
+  @GetMapping( "/thyme" )
+  public ModelAndView thyme( ModelAndView mav ) {
+    mav.setViewName( "thyme" );
+    mav.addObject( "msg", "HelloController /thymeのページです。" );
+    return mav;
+  }
+  
+  @GetMapping( "/thyme/other" )
+  public String other() {
+    return "redirect:/thyme";
+  }
+  
+  @GetMapping( "/thyme/home" )
+  public String home() {
+    return "forward:/thyme";
+  }
+  
+  private boolean flag = false;
+  
+  @GetMapping( "/thif" )
+  public ModelAndView thif( ModelAndView mav ) {
+    flag = !flag;
+    mav.setViewName( "thyme" );
+    mav.addObject( "flag", flag );
+    mav.addObject( "msg", "サンプルのメッセージです。" );
+    return mav;
+  }
+  
+  @GetMapping( "/theach" )
+  public String theach( Model model ) {
+    model.addAttribute( "msg", "データを表示します。" );
+    String[] data = new String[] { "One", "Two", "Three" };
+    model.addAttribute( "data", data );
+    return "thyme";
+  }
+  
+  @GetMapping( "thswitch/{month}" )
+  public String thswitch( @PathVariable int month, Model model ) {
+    model.addAttribute( "msg", month + "月は？" );
+    model.addAttribute( "month", month );
+    return "thyme";
   }
   
 }
